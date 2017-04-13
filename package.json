@@ -1,0 +1,45 @@
+{
+  "name": "vue-mixin",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/vue-mixin.js",
+  "scripts": {
+    "cross-env": "node_modules/.bin/cross-env",
+    "gulp": "node_modules/.bin/gulp",
+    "dev": "npm run gulp",
+    "dist": "npm run cross-env NODE_ENV=production npm run gulp",
+    "test": "npm run cross-env NODE_ENV=testing npm run gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medevicex/vue-mixin.git"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/medevicex/vue-mixin/issues"
+  },
+  "homepage": "https://github.com/medevicex/vue-mixin#readme",
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "clear": "0.0.1",
+    "cross-env": "^3.2.4",
+    "eslint-config-standard": "^10.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "uglify-js": "^2.8.21"
+  }
+}

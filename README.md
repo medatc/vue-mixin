@@ -36,8 +36,14 @@ export default new VueMixin({
 })
 
 // list.vue
-import FetchDataList from './FetchDataList
+import FetchDataList from './FetchDataList'
 export default {
-  mixins: [FetchDataList]
+  mixins: [FetchDataList],
+  created () {
+    this.$fetchList() // 拉取的数据
+    this.$fetchList.init() // 初始化页面的数据
+    this.$fetchList.search() // 查询页面的数据
+    this.$fetchList.syncQuery() // 同步地址栏的参数到组件中
+  }
 }
 ```

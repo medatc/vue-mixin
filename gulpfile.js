@@ -1,4 +1,3 @@
-// const path = require('path')
 const gulp = require('gulp')
 const eslint = require('gulp-eslint')
 const clear = require('clear')
@@ -13,7 +12,6 @@ const babel = require('rollup-plugin-babel')({
 const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
-// var karma = require('karma')
 
 const moduleName = 'VueMixin'
 const destName = 'vue-mixin'
@@ -66,14 +64,6 @@ gulp.task('build', () => {
       exports: 'named'
     })
   })
-})
-
-gulp.task('test', function (done) {
-  // console.log(karma.Server)
-  // karma.Server({
-  //   configFile: path.resolve(__dirname, 'karma.conf.js'),
-  //   singleRun: true
-  // }, done).start()
 })
 
 gulp.task('default', ['lint', 'build', 'test'])

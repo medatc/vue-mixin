@@ -5,7 +5,7 @@ import utils from './utils'
  * return {Class}
  */
 export default class VueMixin {
-  constructor (options) {
+  constructor (options = {}) {
     this.mixins = {}
     this.store = {}
     this.plugins = options.plugins || []

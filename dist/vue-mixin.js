@@ -93,6 +93,64 @@ var _extends = Object.assign || function (target) {
   return target;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
+
 /**
  * vue mixin插件
  * return {Class}
@@ -158,7 +216,8 @@ var VueMixin$1 = function () {
  * /module/:id/edit
  * /module/:id
  * @param {Object} options 选项
- *  - {String} [key] - id的唯一标识
+ *  - {String} [key] - 详情的id的key路径
+ *  - {Object|Array} [mixins] - 加入你自定义的mixins
  *  - {Function} [fetch] - 请求列表的调用的钩子函数，需要return Promise 类型
  *  - {Function} [model] - 数据的字段集合
  * @return {Object}
@@ -172,14 +231,26 @@ function vueMixinFetchDetail(options) {
       return new Error({ msg: '[vueMixinFetchDetail] get options typeof function' });
     }
   }
-  if (options.key === undefined) {
-    // 列表和详情唯一的id键值，不可重复
-    options.key = 'id';
+  // 处理key值
+  if (typeof options.key === 'string') {
+    var _options$key$split = options.key.split('.'),
+        _options$key$split2 = slicedToArray(_options$key$split, 2),
+        detailName = _options$key$split2[0],
+        keyName = _options$key$split2[1];
+
+    options.detailName = detailName;
+    options.keyName = keyName;
+  } else {
+    return;
+  }
+  // 处理mixins
+  if (utils.isObject(options.mixins)) {
+    options.mixins = [options.mixins];
+  } else if (!utils.isArray(options.mixins)) {
+    options.mixins = [];
   }
   var name = 'fetchDetail';
-  var store = {
-    detail: options.model()
-  };
+  var store = options.model();
 
   return {
     name: name,
@@ -199,7 +270,7 @@ function vueMixinFetchDetail(options) {
             length = fetchList.list.length;
 
         for (var i = 0; i < length; i++) {
-          if (String(list[i][options.key]) === String(key)) {
+          if (String(list[i][options.keyName]) === String(key)) {
             // 路由传来的key可能是字符串，也可能是数字
             return i;
           }
@@ -209,32 +280,35 @@ function vueMixinFetchDetail(options) {
 
       this.listUnwatch = VueMixin.vm.$watch('store.fetchList.list', function (list) {
         // 监听列表的数据改变
-        var index = getListItemIndex(store.detail[options.key]);
+        var index = getListItemIndex(store[options.detailName][options.keyName]);
         if (index < 0) return false;
         var detail = list[index];
-        Object.keys(store.detail).forEach(function (k) {
+        Object.keys(store[options.detailName]).forEach(function (k) {
           if (Object.prototype.hasOwnProperty.call(detail, k)) {
             // 如果存在这个属性，才更新到详情中
-            store.detail[k] = detail[k];
+            store[options.detailName][k] = detail[k];
           }
         });
       }, { deep: true });
-      this.detailUnwatch = VueMixin.vm.$watch('store.' + name + '.detail', function (detail) {
+      this.detailUnwatch = VueMixin.vm.$watch('store.' + name + '.' + options.detailName, function (detail) {
         // 监听详情的数据改变
-        var index = getListItemIndex(store.detail[options.key]);
+        var index = getListItemIndex(store[options.detailName][options.keyName]);
         if (index < 0) return false;
         Object.keys(fetchList.list[index]).forEach(function (k) {
           fetchList.list[index][k] = detail[k];
         });
       }, { deep: true });
       return {
-        props: [options.key],
+        mixins: options.mixins,
+        props: [options.keyName],
         beforeRouteEnter: function beforeRouteEnter(to, from, next) {
           // 每次路由变化都会调用此钩子函数
-          if (String(to.params[options.key]) !== String(store.detail[options.key])) {
+          var toKey = String(to.params[options.keyName]);
+          var key = String(store[options.detailName][options.keyName]);
+          if (toKey !== key) {
             // 判断详情的数据和路由要跳转的页面是否一致
-            var index = getListItemIndex(to.params[options.key]);
-            Object.assign(store.detail, options.model(), fetchList.list[index] || {});
+            var index = getListItemIndex(to.params[options.keyName]);
+            Object.assign(store, options.model(), defineProperty({}, options.detailName, fetchList.list[index] || {}));
           }
           next();
         },
@@ -243,9 +317,9 @@ function vueMixinFetchDetail(options) {
           $fetchDetail: function $fetchDetail() {
             var self = this;
             function fetchDetail() {
-              if (!self[options.key]) return;
-              return options.fetch.call(self).then(function (detail) {
-                return store.detail = detail;
+              if (!self[options.keyName]) return;
+              return options.fetch.call(self).then(function (res) {
+                Object.assign(store, res);
               });
             }
             return fetchDetail;
@@ -255,7 +329,7 @@ function vueMixinFetchDetail(options) {
           this.$fetchDetail();
         },
 
-        watch: defineProperty({}, options.key, function () {
+        watch: defineProperty({}, options.keyName, function () {
           this.$fetchDetail();
         })
       };
@@ -321,7 +395,7 @@ function vueMixinFetchList(options) {
               var search = getSearch(self.$route.query);
               return options.fetch.call(self).then(function (res) {
                 if (search !== getSearch(self.$route.query)) return false; // 数据请求回来，页面已经发生改变了
-                Object.assign(store, options.model(), res);
+                Object.assign(store, res);
                 dataSearch = search;
               });
             }

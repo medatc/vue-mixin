@@ -51,7 +51,7 @@ export default function vueMixinFetchList (options) {
               const search = getSearch(self.$route.query)
               return options.fetch.call(self).then((res) => {
                 if (search !== getSearch(self.$route.query)) return false // 数据请求回来，页面已经发生改变了
-                Object.assign(store, options.model(), res)
+                Object.assign(store, res)
                 dataSearch = search
               })
             }

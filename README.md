@@ -59,7 +59,7 @@ export default {
 
 ### vueMixinStore
 提供了跨组件的数据按需加载，缓存，以及帮你处理更新
-```
+```javascript
 // store.js
 export default new VueMixin({
   plugins: [

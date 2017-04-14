@@ -2,7 +2,7 @@
 ```javascript
 import VueMixin, { vueMixinFetchList, vueMixinFetchDetail, vueMixinStore } from 'vue-mixin'
 ```
-**VueMixin**  
+### VueMixin
 核心的程序，目前主要核心功能是给mixin提供一个跨组件数据存储的功能，提供了一个插件的机制
 ```javascript
 new VueMixin({
@@ -12,7 +12,7 @@ new VueMixin({
 })
 ```
 
-**vueMixinFetchList**    
+### vueMixinFetchList
 负责处理路由的列表，包含了地址栏的参数映射到组件的某个对象，路由参数变化自动请求数据，自动清理数据，后续还会提供滚动条位置还原功能
 ```javascript
 // FetchDataList.js

@@ -38,7 +38,6 @@ export default function vueMixinFetchDetail (options) {
   }
   const name = 'fetchDetail'
   const store = options.model()
-
   return {
     name,
     store,
@@ -84,7 +83,7 @@ export default function vueMixinFetchDetail (options) {
           const key = String(store[options.detailName][options.keyName])
           if (toKey !== key) { // 判断详情的数据和路由要跳转的页面是否一致
             const index = getListItemIndex(to.params[options.keyName])
-            Object.assign(store, options.model(), { [options.detailName]: fetchList.list[index] || {} })
+            Object.assign(store[options.detailName], options.model()[options.detailName], fetchList.list[index] || {})
           }
           next()
         },

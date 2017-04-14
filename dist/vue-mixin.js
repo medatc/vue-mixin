@@ -251,7 +251,6 @@ function vueMixinFetchDetail(options) {
   }
   var name = 'fetchDetail';
   var store = options.model();
-
   return {
     name: name,
     store: store,
@@ -308,7 +307,7 @@ function vueMixinFetchDetail(options) {
           if (toKey !== key) {
             // 判断详情的数据和路由要跳转的页面是否一致
             var index = getListItemIndex(to.params[options.keyName]);
-            Object.assign(store, options.model(), defineProperty({}, options.detailName, fetchList.list[index] || {}));
+            Object.assign(store[options.detailName], options.model()[options.detailName], fetchList.list[index] || {});
           }
           next();
         },

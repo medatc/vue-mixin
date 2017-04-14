@@ -1,18 +1,7 @@
 const path = require('path')
-const babel = require('rollup-plugin-babel')({
-  babelrc: false,
-  presets: [
-    ['es2015-rollup'],
-    'stage-0'
-  ]
-})
-const alias = require('rollup-plugin-alias')({
-  'vue-mixin': path.resolve(__dirname, 'src/index'),
-  'utils': path.resolve(__dirname, 'test/utils/index.js'),
-})
-const replace = require('rollup-plugin-replace')({
-  'process.env.NODE_ENV': JSON.stringify('development')
-})
+const babel = require('rollup-plugin-babel')
+const alias = require('rollup-plugin-alias')
+const replace = require('rollup-plugin-replace')
 
 module.exports = function (config) {
   config.set({
@@ -30,9 +19,20 @@ module.exports = function (config) {
     },
     rollupPreprocessor: {
       plugins: [
-        babel,
-        alias,
-        replace
+        babel({
+          babelrc: false,
+          presets: [
+            ['es2015-rollup'],
+            'stage-0'
+          ]
+        }),
+        alias({
+          'vue-mixin': path.resolve(__dirname, 'src/index'),
+          'utils': path.resolve(__dirname, 'test/utils/index.js'),
+        }),
+        replace({
+          'process.env.NODE_ENV': JSON.stringify('development')
+        })
       ],
       format: 'cjs',
       sourceMap: false

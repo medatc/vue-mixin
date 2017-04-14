@@ -40,6 +40,7 @@ import FetchDataList from './FetchDataList'
 export default {
   mixins: [FetchDataList],
   created () {
+    // 提供的API
     this.$fetchList() // 拉取的数据
     this.$fetchList.init() // 初始化页面的数据
     this.$fetchList.search() // 查询页面的数据

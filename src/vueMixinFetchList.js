@@ -4,8 +4,9 @@ import utils from './utils'
  * @param {Object} options
  *  - {String} [pagekey] - 分页的唯一标识
  *  - {String} [queryKey] - 地址栏参数的key
- *  - {Function} [fetch] - 请求列表的调用的钩子函数，需要return Promise 类型
+ *  - {Object|Array} [mixins] - 加入你自定义的mixins
  *  - {Function} [model] - 列表的字段模型
+ *  - {Function} [fetch] - 请求列表的调用的钩子函数，需要return Promise 类型
  * @return {Object}
  */
 export default function vueMixinFetchList (options) {
@@ -23,6 +24,12 @@ export default function vueMixinFetchList (options) {
     if (typeof options.model !== 'function') {
       return new Error({ msg: '[vueMixinFetchList] get options typeof function' })
     }
+  }
+  // 处理mixins
+  if (utils.isObject(options.mixins)) {
+    options.mixins = [options.mixins]
+  } else if (!utils.isArray(options.mixins)) {
+    options.mixins = []
   }
   const name = 'fetchList'
   const store = options.model()

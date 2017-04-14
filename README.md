@@ -49,10 +49,10 @@ export default {
   },
   created () {
     // 提供的API
-    this.$fetchList() // 拉取的数据
-    this.$fetchList.init() // 初始化页面的数据
-    this.$fetchList.search() // 查询页面的数据
-    this.$fetchList.syncQuery() // 同步地址栏的参数到组件中
+    // this.$fetchList() // 拉取的数据
+    // this.$fetchList.init() // 初始化页面的数据
+    // this.$fetchList.search() // 查询页面的数据
+    // this.$fetchList.syncQuery() // 同步地址栏的参数到组件中
   }
 }
 ```

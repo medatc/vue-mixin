@@ -56,3 +56,39 @@ export default {
   }
 }
 ```
+
+### vueMixinStore
+提供了跨组件的数据按需加载，缓存，以及帮你处理更新
+```javascript
+// store.js
+export default new VueMixin({
+  plugins: [
+    vueMixinStore({
+      districts: {
+        update: false, // 数据缓存之后，是否还向服务器更新数据
+        fetch ()  {
+          return Promise.resolve({
+            // 缓存的数据，必须返回一个Promise对象
+          })
+        }
+      },
+      beijing: {
+        base: ['districts'], // 依赖其他字段
+        fetch (districts) { // 等districts请求完成之后，会触发相关的依赖任务
+          return districts.xxx
+        }
+      }
+    })
+  ]
+}).mixins.store
+// xx.vue
+import store from './store'
+export default {
+  mixins: [store],
+  data () {
+    return {
+      districts: {} // vueMixinStore会检测此字段自己是否存在，如果存在就会自动帮处理该字段的数据
+    }
+  }
+}
+```

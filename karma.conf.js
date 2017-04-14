@@ -15,7 +15,7 @@ module.exports = function (config) {
     ],
     exclude: [],
     preprocessors: {
-      'test/**/*.test.js': ['rollup', 'eslint']
+      'test/**/*.test.js': ['eslint', 'rollup']
     },
     rollupPreprocessor: {
       plugins: [
@@ -28,7 +28,7 @@ module.exports = function (config) {
         }),
         alias({
           'vue-mixin': path.resolve(__dirname, 'src/index'),
-          'utils': path.resolve(__dirname, 'test/utils/index.js'),
+          'utils': path.resolve(__dirname, 'test/utils/index.js')
         }),
         replace({
           'process.env.NODE_ENV': JSON.stringify('development')
@@ -44,6 +44,14 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    concurrency: Infinity
+    concurrency: Infinity,
+    eslint: {
+      stopOnError: false,
+      stopOnWarning: false,
+      showWarnings: false,
+      engine: {
+        configFile: '.eslintrc.js'
+      }
+    }
   })
 }

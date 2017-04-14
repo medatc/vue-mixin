@@ -23,7 +23,7 @@ export default class VueMixin {
           return new Error({ msg: `[VueMixin] Plug in conflict [${item.name}]` })
         }
       }
-      this.mixins[item.name] = Object.assign(item.install(this))
+      this.mixins[item.name] = Object.assign(item.install(this)) || {}
       if (utils.isObject(item.store)) {
         this.createStore(item.name, item.store)
       }
@@ -32,12 +32,12 @@ export default class VueMixin {
   createStore (name, store) { // 创建仓库
     _Vue.set(this.store, name, store)
   }
-  destroyed () { // 销毁程序，释放内存
+  destroy () { // 销毁程序，释放内存
     this.plugins.forEach((item) => { // 销毁插件
-      if (typeof item.destroyed === 'function') {
-        item.destroyed()
+      if (typeof item.destroy === 'function') {
+        item.destroy()
       }
     })
-    this.vm.destroyed() // 销毁vm
+    this.vm.$destroy() // 销毁vm
   }
 }

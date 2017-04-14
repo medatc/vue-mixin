@@ -110,7 +110,7 @@ export default function vueMixinFetchDetail (options) {
         }
       }
     },
-    destroyed () { // 销毁插件，释放内存
+    destroy () { // 销毁插件，释放内存
       this.listUnwatch()
       this.detailUnwatch()
     }

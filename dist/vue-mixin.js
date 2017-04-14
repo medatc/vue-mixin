@@ -157,9 +157,10 @@ var slicedToArray = function () {
  */
 
 var VueMixin$1 = function () {
-  function VueMixin(options) {
+  function VueMixin() {
     var _this = this;
 
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     classCallCheck(this, VueMixin);
 
     this.mixins = {};
@@ -179,7 +180,7 @@ var VueMixin$1 = function () {
           return new Error({ msg: '[VueMixin] Plug in conflict [' + item.name + ']' });
         }
       }
-      _this.mixins[item.name] = Object.assign(item.install(_this));
+      _this.mixins[item.name] = Object.assign(item.install(_this)) || {};
       if (utils.isObject(item.store)) {
         _this.createStore(item.name, item.store);
       }
@@ -193,16 +194,16 @@ var VueMixin$1 = function () {
       _Vue.set(this.store, name, store);
     }
   }, {
-    key: 'destroyed',
-    value: function destroyed() {
+    key: 'destroy',
+    value: function destroy() {
       // 销毁程序，释放内存
       this.plugins.forEach(function (item) {
         // 销毁插件
-        if (typeof item.destroyed === 'function') {
-          item.destroyed();
+        if (typeof item.destroy === 'function') {
+          item.destroy();
         }
       });
-      this.vm.destroyed(); // 销毁vm
+      this.vm.destroy(); // 销毁vm
     }
   }]);
   return VueMixin;
@@ -333,7 +334,7 @@ function vueMixinFetchDetail(options) {
         })
       };
     },
-    destroyed: function destroyed() {
+    destroy: function destroy() {
       // 销毁插件，释放内存
       this.listUnwatch();
       this.detailUnwatch();
@@ -464,7 +465,7 @@ function vueMixinFetchList(options) {
         }
       };
     },
-    destroyed: function destroyed(VueMixin) {// 卸载程序
+    destroy: function destroy(VueMixin) {// 卸载程序
     }
   };
 

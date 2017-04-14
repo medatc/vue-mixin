@@ -114,7 +114,7 @@ export default function vueMixinFetchList (options) {
         }
       }
     },
-    destroyed (VueMixin) { // 卸载程序
+    destroy (VueMixin) { // 卸载程序
     }
   }
 

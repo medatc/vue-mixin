@@ -82,7 +82,7 @@ export default new VueMixin({
   ]
 }).mixins.store
 // xx.vue
-import store from './store
+import store from './store'
 export default {
   mixins: [store],
   data () {

@@ -15,7 +15,8 @@ new VueMixin({
 **vueMixinFetchList**    
 负责处理路由的列表，包含了地址栏的参数映射到组件的某个对象，路由参数变化自动请求数据，自动清理数据，后续还会提供滚动条位置还原功能
 ```javascript
-new VueMixin({
+// FetchDataList.js
+export default new VueMixin({
   plugins: [
     vueMixinFetchList({
       pagekey: 'page', // 分页的key值
@@ -33,4 +34,10 @@ new VueMixin({
     })
   ]
 })
+
+// list.vue
+import FetchDataList from './FetchDataList
+export default {
+  mixins: [FetchDataList]
+}
 ```

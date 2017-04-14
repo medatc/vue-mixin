@@ -33,7 +33,7 @@ export default new VueMixin({
       }
     })
   ]
-})
+}).mixins.fetchList
 
 // list.vue
 import FetchDataList from './FetchDataList'

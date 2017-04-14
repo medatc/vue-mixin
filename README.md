@@ -39,6 +39,14 @@ export default new VueMixin({
 import FetchDataList from './FetchDataList'
 export default {
   mixins: [FetchDataList],
+  data () {
+    return {
+      query: { // 会将地址栏对应的参数，同步到声明的字段中
+        page: 1,
+        keyname: ''
+      }
+    }
+  },
   created () {
     // 提供的API
     this.$fetchList() // 拉取的数据

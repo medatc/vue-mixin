@@ -6,7 +6,7 @@ const { expect } = chai
 
 Vue.use(VueMixin)
 
-describe('vue-mixin-store', () => {
+describe('vueMixinStore', () => {
   describe('update', () => {
     const { store } = new VueMixin({
       plugins: [

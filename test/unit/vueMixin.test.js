@@ -6,7 +6,7 @@ const { expect } = chai
 
 Vue.use(VueMixin)
 
-describe('vue-mixin', () => {
+describe('vueMixin', () => {
   it('install', () => {
     chai.expect(VueMixin.install.installed).to.be.equal(true)
   })

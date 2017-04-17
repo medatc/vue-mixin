@@ -10,7 +10,7 @@ describe('vue-mixin', () => {
   it('install', () => {
     chai.expect(VueMixin.install.installed).to.be.equal(true)
   })
-  it('NEW no options', () => {
+  it('new no options', () => {
     const vmn = new VueMixin()
     const name = 'test'
     const store = {}
@@ -25,7 +25,7 @@ describe('vue-mixin', () => {
     expect(vmn.store[name]).to.be.equal(store)
     vmn.destroy()
   })
-  it('My plugin', () => {
+  it('my plugin', () => {
     const opt = { state: 0 }
     const name = 'test'
     const mixins = {
@@ -36,7 +36,7 @@ describe('vue-mixin', () => {
     const store = {}
     const vmn = new VueMixin({
       plugins: [{
-        name, // the plugins name
+        name, // The plugins name
         store,
         install (vueMixin) {
           setTimeout(() => {

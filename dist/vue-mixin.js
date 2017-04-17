@@ -196,11 +196,13 @@ var VueMixin$1 = function () {
   }, {
     key: 'destroy',
     value: function destroy() {
+      var _this2 = this;
+
       // 销毁程序，释放内存
       this.plugins.forEach(function (item) {
         // 销毁插件
         if (typeof item.destroy === 'function') {
-          item.destroy();
+          item.destroy(_this2);
         }
       });
       this.vm.$destroy(); // 销毁vm

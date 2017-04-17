@@ -203,7 +203,7 @@ var VueMixin$1 = function () {
           item.destroy();
         }
       });
-      this.vm.destroy(); // 销毁vm
+      this.vm.$destroy(); // 销毁vm
     }
   }]);
   return VueMixin;

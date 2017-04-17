@@ -12,6 +12,7 @@ const babel = require('rollup-plugin-babel')({
 const uglify = require('rollup-plugin-uglify')
 const { minify } = require('uglify-js')
 const replace = require('rollup-plugin-replace')
+const karma = require('karma')
 
 const moduleName = 'VueMixin'
 const destName = 'vue-mixin'
@@ -66,8 +67,15 @@ gulp.task('build', () => {
   })
 })
 
-gulp.task('default', ['lint', 'build'])
+gulp.task('test', (done) => {
+  new karma.Server({
+    configFile: require('path').resolve(__dirname, 'karma.conf.js'),
+    singleRun: true
+  }, done).start()
+})
+
+gulp.task('default', ['lint', 'build', 'test'])
 
 if (process.env.NODE_ENV !== 'production') {
-  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['lint', 'build'])
+  gulp.watch(['**/*.js', '!node_modules/**', '!dist/**'], ['default'])
 }

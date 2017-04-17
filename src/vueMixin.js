@@ -35,7 +35,7 @@ export default class VueMixin {
   destroy () { // 销毁程序，释放内存
     this.plugins.forEach((item) => { // 销毁插件
       if (typeof item.destroy === 'function') {
-        item.destroy()
+        item.destroy(this)
       }
     })
     this.vm.$destroy() // 销毁vm
